@@ -1,7 +1,8 @@
 import React from "react";
+import Typography from "@material-ui/core/Typography";
 
 function MainPage() {
-  return <h1> Initial Page </h1>;
+  return <Typography variant="h1"> Initial Page </Typography>;
 }
 
 export default MainPage;

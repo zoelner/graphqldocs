@@ -22,7 +22,14 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 
 import styles from "./styles";
 
-const Header = ({ classes, theme, query, mutation, subscription }) => {
+const Header = ({
+  classes,
+  theme,
+  query,
+  mutation,
+  navigationSetFirst,
+  title
+}) => {
   const [mobileOpen, handleDrawerToggle] = React.useState(false);
   const [queryOpen, queryToggle] = React.useState(false);
   const [mutationOpen, mutationToggle] = React.useState(false);
@@ -39,7 +46,14 @@ const Header = ({ classes, theme, query, mutation, subscription }) => {
           {fields
             .filter(field => !field.isDeprecated)
             .map(field => (
-              <ListItem button className={classes.nested} key={field.name}>
+              <ListItem
+                button
+                className={classes.nested}
+                key={field.name}
+                to="/documentation"
+                component={RouterLink}
+                onClick={navigationSetFirst.bind(this, type, field)}
+              >
                 <ListItemText secondary={field.name} />
               </ListItem>
             ))}
@@ -116,7 +130,7 @@ const Header = ({ classes, theme, query, mutation, subscription }) => {
             color="inherit"
             noWrap
           >
-            GraphQL Docs
+            {title || "GraphQL Docs"}
           </Typography>
           <div style={{ flex: "1 1 auto" }} />
 
