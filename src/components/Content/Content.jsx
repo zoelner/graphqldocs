@@ -5,7 +5,7 @@ import { DRAWER_WIDTH } from "../../constants";
 const styles = theme => ({
   content: {
     paddingTop: 80,
-    paddingLeft: 16,
+    paddingLeft: 40,
     paddingRight: 16,
     marginBottom: 100,
     [theme.breakpoints.up("sm")]: {
