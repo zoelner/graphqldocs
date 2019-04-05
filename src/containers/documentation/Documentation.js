@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
-import Documentation from "../pages/Documentation";
+import Documentation from "../../pages/Documentation";
 import { bindActionCreators } from "redux";
-import { Creators as NavigationCreators } from "../store/duck/navigation";
+import { Creators as NavigationCreators } from "../../store/duck/navigation";
 
 const getCurrentPage = navigation => navigation[navigation.length - 1];
 

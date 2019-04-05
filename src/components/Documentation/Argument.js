@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import TypeLink from "../../containers/TypeLink";
+import TypeLink from "../../containers/documentation/TypeLink";
 import DefaultValue from "./DefaultValue";
 
 export default function Argument({ arg, showDefaultValue }) {

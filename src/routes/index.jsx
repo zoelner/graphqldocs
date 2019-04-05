@@ -5,7 +5,7 @@ import { store } from "../store";
 import Header from "../containers/Header";
 import Content from "../components/Content";
 import MainPage from "../pages/MainPage";
-import Documentation from "../containers/Documentation";
+import Documentation from "../containers/documentation/Documentation";
 
 const DefaultLayout = ({ component: Component, ...rest }) => (
   <Route

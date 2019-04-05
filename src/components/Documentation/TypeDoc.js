@@ -14,7 +14,7 @@ import {
 } from "graphql";
 
 import Argument from "./Argument";
-import TypeLink from "../../containers/TypeLink";
+import TypeLink from "../../containers/documentation/TypeLink";
 
 import DefaultValue from "./DefaultValue";
 
@@ -180,7 +180,6 @@ function Field({ type, field, onClickField }) {
           </span>,
           ")"
         ]}
-      {": "}
       <TypeLink type={field.type} />
       <DefaultValue field={field} />
       {field.description && (
