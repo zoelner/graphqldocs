@@ -1,7 +1,8 @@
 import * as React from "react";
 import { isType } from "graphql";
-import TypeDoc from "../containers/TypeDoc";
+import TypeDoc from "../containers/documentation/TypeDoc";
 import FieldDoc from "../components/Documentation/FieldDoc";
+import BreadCrumbs from "../containers/documentation/BreadCrumbs";
 
 class Documentation extends React.Component {
   render() {
@@ -18,7 +19,12 @@ class Documentation extends React.Component {
       content = <span>Não há conteudo a ser exibido</span>;
     }
 
-    return <div>{content}</div>;
+    return (
+      <React.Fragment>
+        <BreadCrumbs />
+        <div>{content}</div>
+      </React.Fragment>
+    );
   }
 }
 export default Documentation;

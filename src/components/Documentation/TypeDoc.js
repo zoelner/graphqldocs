@@ -13,12 +13,22 @@ import {
   GraphQLEnumType
 } from "graphql";
 
-import Argument from "./Argument";
 import TypeLink from "../../containers/documentation/TypeLink";
+import Field from "./Field";
+import EnumValue from "./EnumValue";
 
-import DefaultValue from "./DefaultValue";
+import { Typography, Divider, withStyles } from "@material-ui/core";
 
-export default class TypeDoc extends React.Component {
+const style = theme => ({
+  root: {
+    marginTop: theme.spacing.unit * 2
+  },
+  category: {
+    padding: `${theme.spacing.unit * 1.5}px 0`
+  }
+});
+
+class TypeDoc extends React.Component {
   constructor(props) {
     super(props);
     this.state = { showDeprecated: false };
@@ -33,8 +43,7 @@ export default class TypeDoc extends React.Component {
   }
 
   render() {
-    const schema = this.props.schema;
-    const type = this.props.type;
+    const { schema, type, classes } = this.props;
 
     let typesTitle;
     let types;
@@ -52,7 +61,7 @@ export default class TypeDoc extends React.Component {
     let typesDef;
     if (types && types.length > 0) {
       typesDef = (
-        <div className="doc-category">
+        <div className={classes.category}>
           <div className="doc-category-title">{typesTitle}</div>
           {types.map(subtype => (
             <div key={subtype.name} className="doc-category-item">
@@ -70,8 +79,11 @@ export default class TypeDoc extends React.Component {
       const fieldMap = type.getFields();
       const fields = Object.keys(fieldMap).map(name => fieldMap[name]);
       fieldsDef = (
-        <div className="doc-category">
-          <div className="doc-category-title">{"fields"}</div>
+        <div className={classes.category}>
+          <Typography variant="h6" gutterBottom>
+            {"Fields"}
+          </Typography>
+          <Divider className={classes.divider} />
           {fields
             .filter(field => !field.isDeprecated)
             .map(field => (
@@ -115,7 +127,10 @@ export default class TypeDoc extends React.Component {
       const values = type.getValues();
       valuesDef = (
         <div className="doc-category">
-          <div className="doc-category-title">{"values"}</div>
+          <Typography variant="h6" gutterBottom>
+            {"Values"}
+          </Typography>
+          <Divider />
           {values
             .filter(value => !value.isDeprecated)
             .map(value => (
@@ -144,10 +159,10 @@ export default class TypeDoc extends React.Component {
     }
 
     return (
-      <div>
-        <div className="doc-type-description">
+      <div className={classes.root}>
+        <Typography variant="body1" gutterBottom>
           {type.description || "No Description"}
-        </div>
+        </Typography>
         {type instanceof GraphQLObjectType && typesDef}
         {fieldsDef}
         {deprecatedFieldsDef}
@@ -161,45 +176,4 @@ export default class TypeDoc extends React.Component {
   handleShowDeprecated = () => this.setState({ showDeprecated: true });
 }
 
-function Field({ type, field, onClickField }) {
-  return (
-    <div className="doc-category-item">
-      <span
-        className="field-name"
-        onClick={event => onClickField(field, type, event)}
-      >
-        {field.name}
-      </span>
-      {field.args &&
-        field.args.length > 0 && [
-          "(",
-          <span key="args">
-            {field.args.map(arg => (
-              <Argument key={arg.name} arg={arg} />
-            ))}
-          </span>,
-          ")"
-        ]}
-      <TypeLink type={field.type} />
-      <DefaultValue field={field} />
-      {field.description && (
-        <div className="field-short-description">{field.description}</div>
-      )}
-      {field.deprecationReason && (
-        <div className="doc-deprecation"> {field.deprecationReason}</div>
-      )}
-    </div>
-  );
-}
-
-function EnumValue({ value }) {
-  return (
-    <div className="doc-category-item">
-      <div className="enum-value">{value.name}</div>
-      <div className="doc-value-description">{value.description}</div>
-      {value.deprecationReason && (
-        <div className="doc-deprecation">{value.deprecationReason}</div>
-      )}
-    </div>
-  );
-}
+export default withStyles(style)(TypeDoc);

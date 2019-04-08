@@ -7,38 +7,56 @@
 
 import React from "react";
 import { GraphQLList, GraphQLNonNull } from "graphql";
+import { withStyles, Typography } from "@material-ui/core";
 
-export default class TypeLink extends React.Component {
+const styles = theme => ({
+  typeLink: {
+    display: "inline-block",
+    cursor: "pointer"
+  }
+});
+
+class TypeLink extends React.Component {
   shouldComponentUpdate(nextProps) {
     return this.props.type !== nextProps.type;
   }
 
+  renderType = (type, onClick) => {
+    const { classes } = this.props;
+
+    if (type instanceof GraphQLNonNull) {
+      return (
+        <span>
+          {this.renderType(type.ofType, onClick)}
+          {"!"}
+        </span>
+      );
+    }
+    if (type instanceof GraphQLList) {
+      return (
+        <span>
+          {"["}
+          {this.renderType(type.ofType, onClick)}
+          {"]"}
+        </span>
+      );
+    }
+    return (
+      <Typography
+        component="span"
+        className={classes.typeLink}
+        onClick={event => onClick(type, event)}
+        variant="subtitle2"
+        color="secondary"
+      >
+        {type.name}
+      </Typography>
+    );
+  };
+
   render() {
-    return renderType(this.props.type, this.props.navigationSet);
+    return this.renderType(this.props.type, this.props.navigationSet);
   }
 }
 
-function renderType(type, onClick) {
-  if (type instanceof GraphQLNonNull) {
-    return (
-      <span>
-        {renderType(type.ofType, onClick)}
-        {"!"}
-      </span>
-    );
-  }
-  if (type instanceof GraphQLList) {
-    return (
-      <span>
-        {"["}
-        {renderType(type.ofType, onClick)}
-        {"]"}
-      </span>
-    );
-  }
-  return (
-    <span className="type-name" onClick={event => onClick(type, event)}>
-      {type.name}
-    </span>
-  );
-}
+export default withStyles(styles)(TypeLink);

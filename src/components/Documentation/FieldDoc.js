@@ -6,50 +6,75 @@
  */
 
 import React from "react";
-import PropTypes from "prop-types";
-
 import Argument from "./Argument";
 import TypeLink from "../../containers/documentation/TypeLink";
+import withStyles from "@material-ui/core/styles/withStyles";
+import { Typography, Divider } from "@material-ui/core";
 
-export default class FieldDoc extends React.Component {
-  static propTypes = {
-    field: PropTypes.object
-  };
+const styles = theme => ({
+  root: {
+    marginTop: theme.spacing.unit * 2
+  },
+  category: {
+    padding: `${theme.spacing.unit * 1.5}px 0`
+  },
 
+  categoryItem: {
+    "& span:first-child": {
+      margin: 0,
+      padding: 0
+    }
+  }
+});
+
+class FieldDoc extends React.Component {
   render() {
-    const field = this.props.field;
+    const { field, classes } = this.props;
 
     let argsDef;
     if (field.args && field.args.length > 0) {
       argsDef = (
-        <div className="doc-category">
-          <div className="doc-category-title">{"arguments"}</div>
-          {field.args.map(arg => (
-            <div key={arg.name} className="doc-category-item">
-              <div>
-                <Argument arg={arg} onClickType={this.props.onClickType} />
+        <div className={classes.category}>
+          <Typography variant="h6" gutterBottom>
+            {"Arguments"}
+          </Typography>
+          <Divider />
+          <div>
+            {field.args.map(arg => (
+              <div key={arg.name} className={classes.categoryItem}>
+                <Argument arg={arg} />
+                <Typography color="textSecondary">
+                  {" "}
+                  {arg.description}
+                </Typography>
               </div>
-              <div className="doc-value-description"> {arg.description}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       );
     }
 
     return (
-      <div>
-        <div className="doc-type-description">
-          {field.description || "No Description"}
+      <React.Fragment>
+        <div className={classes.root}>
+          <Typography variant="body1" gutterBottom>
+            {field.description || "No Description"}
+          </Typography>
         </div>
         {field.deprecationReason && (
           <div className="doc-deprecation">{field.deprecationReason}</div>
         )}
-        <div className="doc-category">
-          <div className="doc-category-title">{"type"}</div>
+        <div className={classes.category}>
+          <Typography variant="h6" gutterBottom>
+            {"Type"}
+          </Typography>
+          <Divider />
           <TypeLink type={field.type} />
         </div>
         {argsDef}
-      </div>
+      </React.Fragment>
     );
   }
 }
+
+export default withStyles(styles)(FieldDoc);
