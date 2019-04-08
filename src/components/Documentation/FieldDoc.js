@@ -10,6 +10,7 @@ import Argument from "./Argument";
 import TypeLink from "../../containers/documentation/TypeLink";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Typography, Divider } from "@material-ui/core";
+import Markdown from "../../utils/Markdown";
 
 const styles = theme => ({
   root: {
@@ -28,9 +29,27 @@ const styles = theme => ({
 });
 
 class FieldDoc extends React.Component {
+  state = {
+    readme: undefined
+  };
+  componentDidUpdate(prevProps) {
+    if (prevProps.field !== this.props.field) {
+      try {
+        const { field } = this.props;
+
+        fetch(require(`../../pages/docs/${field.name}.md`))
+          .then(response => response.text())
+          .then(readme => this.setState({ readme }));
+      } catch (e) {
+        console.warn("Não há documentos para carregar");
+        this.setState({ readme: undefined });
+      }
+    }
+  }
+
   render() {
     const { field, classes } = this.props;
-
+    const { readme } = this.state;
     let argsDef;
     if (field.args && field.args.length > 0) {
       argsDef = (
@@ -57,9 +76,13 @@ class FieldDoc extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.root}>
-          <Typography variant="body1" gutterBottom>
-            {field.description || "No Description"}
-          </Typography>
+          {readme ? (
+            <Markdown>{this.state.readme}</Markdown>
+          ) : (
+            <Typography variant="body1" gutterBottom>
+              {field.description || "No Description"}
+            </Typography>
+          )}
         </div>
         {field.deprecationReason && (
           <div className="doc-deprecation">{field.deprecationReason}</div>
