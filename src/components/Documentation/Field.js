@@ -8,6 +8,9 @@ const styles = theme => ({
   root: {
     marginTop: ".25em",
     marginBottom: ".25rem"
+  },
+  fieldName: {
+    cursor: "pointer"
   }
 });
 
@@ -17,7 +20,7 @@ const Field = props => {
     <div className={classes.root}>
       <Typography
         component="span"
-        className="field-name"
+        className={classes.fieldName}
         variant="subtitle2"
         color="primary"
         inline
@@ -27,8 +30,8 @@ const Field = props => {
       </Typography>
       {field.args &&
         field.args.length > 0 && [
-          "(",
-          <span key="args">
+          " (",
+          <span key="args" className={classes.argcontainer}>
             {field.args.map(arg => (
               <Argument key={arg.name} arg={arg} />
             ))}

@@ -62,7 +62,9 @@ class TypeDoc extends React.Component {
     if (types && types.length > 0) {
       typesDef = (
         <div className={classes.category}>
-          <div className="doc-category-title">{typesTitle}</div>
+          <Typography variant="h6" gutterBottom>
+            {typesTitle}
+          </Typography>
           {types.map(subtype => (
             <div key={subtype.name} className="doc-category-item">
               <TypeLink type={subtype} />
@@ -83,17 +85,19 @@ class TypeDoc extends React.Component {
           <Typography variant="h6" gutterBottom>
             {"Fields"}
           </Typography>
-          <Divider className={classes.divider} />
-          {fields
-            .filter(field => !field.isDeprecated)
-            .map(field => (
-              <Field
-                key={field.name}
-                type={type}
-                field={field}
-                onClickField={this.props.navigationSet}
-              />
-            ))}
+          <Divider />
+          <div>
+            {fields
+              .filter(field => !field.isDeprecated)
+              .map(field => (
+                <Field
+                  key={field.name}
+                  type={type}
+                  field={field}
+                  onClickField={this.props.navigationSet}
+                />
+              ))}
+          </div>
         </div>
       );
 
@@ -131,11 +135,13 @@ class TypeDoc extends React.Component {
             {"Values"}
           </Typography>
           <Divider />
-          {values
-            .filter(value => !value.isDeprecated)
-            .map(value => (
-              <EnumValue key={value.name} value={value} />
-            ))}
+          <div>
+            {values
+              .filter(value => !value.isDeprecated)
+              .map(value => (
+                <EnumValue key={value.name} value={value} />
+              ))}
+          </div>
         </div>
       );
 
