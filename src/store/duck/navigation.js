@@ -1,3 +1,5 @@
+import { INITIAL_STATE as schema } from "./schema";
+
 export const Types = {
   NAVIGATION_SET_FIRST: "@navigation/SET_FIRST",
   NAVIGATION_SET: "@navigation/SET",
@@ -22,23 +24,25 @@ export const Creators = {
       def: props
     }
   }),
-  navigationRemove: () => ({ type: Types.NAVIGATION_REMOVE })
+  navigationRemove: payload => ({ type: Types.NAVIGATION_REMOVE, payload })
 };
 
-const INITIAL_STATE = [];
+const query = schema.getQueryType();
+const INITIAL_STATE = [
+  {
+    name: query.name,
+    def: query
+  }
+];
 
-export default function schema(state = INITIAL_STATE, action) {
+export default function navigation(state = INITIAL_STATE, action) {
   switch (action.type) {
     case Types.NAVIGATION_SET_FIRST:
       return action.payload;
     case Types.NAVIGATION_SET:
       return [...state, action.payload];
     case Types.NAVIGATION_REMOVE:
-      if (state.length === 2) {
-        return [];
-      } else {
-        return state.slice(0, state.length - 1);
-      }
+      return state.slice(0, action.payload + 1);
     default:
       return state;
   }
