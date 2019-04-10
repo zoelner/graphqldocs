@@ -9,8 +9,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import Collapse from "@material-ui/core/Collapse";
-import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -21,6 +19,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 
 import styles from "./styles";
+import Search from "../../containers/documentation/Search";
 
 const Header = ({
   classes,
@@ -134,18 +133,7 @@ const Header = ({
           </Typography>
           <div style={{ flex: "1 1 auto" }} />
 
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-            />
-          </div>
+          <Search />
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer}>
