@@ -11,6 +11,8 @@ import TypeLink from "../../containers/documentation/TypeLink";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Typography, Divider } from "@material-ui/core";
 import Markdown from "../../utils/Markdown";
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
 
 const styles = theme => ({
   root: {
@@ -32,18 +34,30 @@ class FieldDoc extends React.Component {
   state = {
     readme: undefined
   };
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.field !== this.props.field) {
-      try {
-        const { field } = this.props;
+      this.loadReadme();
+    }
+    if (prevState.readme !== this.state.readme) {
+      Prism.highlightAll();
+    }
+  }
 
-        fetch(require(`../../pages/docs/${field.name}.md`))
-          .then(response => response.text())
-          .then(readme => this.setState({ readme }));
-      } catch (e) {
-        console.warn("Não há documentos para carregar");
-        this.setState({ readme: undefined });
-      }
+  componentDidMount() {
+    Prism.highlightAll();
+    this.loadReadme();
+  }
+
+  loadReadme() {
+    try {
+      const { field } = this.props;
+
+      fetch(require(`../../pages/docs/${field.name}.md`))
+        .then(response => response.text())
+        .then(readme => this.setState({ readme }));
+    } catch (e) {
+      console.warn("Não há documentos para carregar");
+      this.setState({ readme: undefined });
     }
   }
 
