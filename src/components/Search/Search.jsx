@@ -9,6 +9,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { withStyles } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import SearchIcon from "@material-ui/icons/Search";
+import Typography from "@material-ui/core/Typography";
+import { withRouter } from "react-router";
 
 function renderInputComponent(inputProps) {
   const { classes, inputRef = () => {}, ref, ...other } = inputProps;
@@ -35,49 +37,13 @@ function renderInputComponent(inputProps) {
   );
 }
 
-function renderSuggestion(suggestion, { isHighlighted, query }) {
-  const matches = match(suggestion, query);
-  const parts = parse(suggestion, matches);
-
-  return (
-    <MenuItem selected={isHighlighted} component="div">
-      <div>
-        {parts.map((part, index) =>
-          part.highlight ? (
-            <span key={String(index)} style={{ fontWeight: 500 }}>
-              {part.text}
-            </span>
-          ) : (
-            <strong key={String(index)} style={{ fontWeight: 300 }}>
-              {part.text}
-            </strong>
-          )
-        )}
-      </div>
-    </MenuItem>
-  );
-}
-
 function isMatch(sourceText, searchValue) {
   try {
     const escaped = searchValue.replace(/[^_0-9A-Za-z]/g, ch => "\\" + ch);
-    return sourceText.search(new RegExp(escaped, "i")) !== -1;
+    return sourceText.search(new RegExp(escaped)) !== -1;
   } catch (e) {
     return sourceText.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
   }
-}
-
-function getSuggestions(value, suggestions) {
-  const inputValue = deburr(value.trim());
-  const inputLength = inputValue.length;
-
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => isMatch(suggestion, inputValue));
-}
-
-function getSuggestionValue(suggestion) {
-  return suggestion;
 }
 
 const styles = theme => ({
@@ -154,7 +120,7 @@ class Search extends React.Component {
 
   handleSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      suggestions: getSuggestions(value, this.props.suggestions)
+      suggestions: this.getSuggestions(value)
     });
   };
 
@@ -164,11 +130,119 @@ class Search extends React.Component {
     });
   };
 
-  handleChange = name => (event, { newValue }) => {
-    window.event = newValue;
+  handleChange = (event, { newValue, method }) => {
     this.setState({
-      [name]: newValue
+      single: newValue
     });
+  };
+
+  getSuggestionValue = suggestion => {
+    this.props.history.replace("/documentation");
+    if (Array.isArray(suggestion)) {
+      return suggestion[1];
+    }
+    return suggestion;
+  };
+
+  getSuggestions = value => {
+    const inputValue = deburr(value.trim());
+    const inputLength = inputValue.length;
+    const withinType = this.props.navigation[this.props.navigation.length - 1];
+
+    const typeMap = this.props.schema.getTypeMap();
+    let typeNames = Object.keys(typeMap);
+
+    const matchedWithin = [];
+    const matchedTypes = [];
+    let matchedFields = [];
+
+    if (inputLength === 0) return [];
+    for (const typeName of typeNames) {
+      if (
+        matchedWithin.length + matchedTypes.length + matchedFields.length >=
+        100
+      ) {
+        break;
+      }
+
+      if (withinType) {
+        typeNames = typeNames.filter(n => n !== withinType.name);
+        typeNames.unshift(withinType.name);
+      }
+
+      if (isMatch(typeName, value)) {
+        matchedTypes.push(typeName);
+      }
+
+      const type = typeMap[typeName];
+      if (type.getFields) {
+        const fields = type.getFields();
+        Object.keys(fields).forEach(fieldName => {
+          const field = fields[fieldName];
+          let matchingArgs;
+
+          if (!isMatch(fieldName, value)) {
+            if (field.args && field.args.length) {
+              matchingArgs = field.args.filter(arg => isMatch(arg.name, value));
+              if (matchingArgs.length === 0) {
+                return;
+              }
+            } else {
+              return;
+            }
+          }
+
+          const match = [typeName, fieldName];
+
+          if (withinType === type) {
+            matchedWithin.push(match);
+          } else {
+            matchedFields.push(match);
+          }
+        });
+      }
+    }
+    return [...matchedTypes, ...matchedFields];
+  };
+
+  renderSuggestion = (suggestion, { isHighlighted, query }) => {
+    let value;
+    if (Array.isArray(suggestion)) {
+      value = suggestion.join(".");
+    } else {
+      value = suggestion;
+    }
+
+    const matches = match(value, query);
+    const parts = parse(value, matches);
+
+    return (
+      <MenuItem selected={isHighlighted} component="div">
+        <div>
+          {parts.map((part, index) =>
+            part.highlight ? (
+              <Typography key={String(index)} color="textPrimary" inline>
+                {part.text}
+              </Typography>
+            ) : (
+              <Typography key={String(index)} color="textSecondary" inline>
+                {part.text}
+              </Typography>
+            )
+          )}
+        </div>
+      </MenuItem>
+    );
+  };
+
+  onSuggestionSelected = async (event, { suggestion }) => {
+    if (Array.isArray(suggestion)) {
+      this.props.navigationSet(
+        this.props.schema.getType(suggestion[0]).getFields()[suggestion[1]]
+      );
+    } else {
+      this.props.navigationSet(this.props.schema.getType(suggestion));
+    }
   };
 
   render() {
@@ -179,8 +253,9 @@ class Search extends React.Component {
       suggestions: this.state.suggestions,
       onSuggestionsFetchRequested: this.handleSuggestionsFetchRequested,
       onSuggestionsClearRequested: this.handleSuggestionsClearRequested,
-      getSuggestionValue,
-      renderSuggestion
+      getSuggestionValue: this.getSuggestionValue,
+      onSuggestionSelected: this.onSuggestionSelected,
+      renderSuggestion: this.renderSuggestion
     };
 
     return (
@@ -191,7 +266,7 @@ class Search extends React.Component {
             classes,
             placeholder: "Search...",
             value: this.state.single,
-            onChange: this.handleChange("single")
+            onChange: this.handleChange
           }}
           theme={{
             container: classes.container,
@@ -210,4 +285,4 @@ class Search extends React.Component {
   }
 }
 
-export default withStyles(styles)(Search);
+export default withRouter(withStyles(styles)(Search));

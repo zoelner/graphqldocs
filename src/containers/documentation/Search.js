@@ -5,9 +5,7 @@ import Search from "../../components/Search/Search";
 
 const mapStateToProps = ({ schema, navigation }) => ({
   schema,
-  withinType: navigation[navigation.length - 1].def,
-  typeMap: schema.getTypeMap(),
-  suggestions: Object.keys(schema.getTypeMap())
+  navigation
 });
 
 const mapDispatchToProps = dispatch =>

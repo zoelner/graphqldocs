@@ -1,5 +1,3 @@
-import { INITIAL_STATE as schema } from "./schema";
-
 export const Types = {
   NAVIGATION_SET_FIRST: "@navigation/SET_FIRST",
   NAVIGATION_SET: "@navigation/SET",
@@ -27,13 +25,7 @@ export const Creators = {
   navigationRemove: payload => ({ type: Types.NAVIGATION_REMOVE, payload })
 };
 
-const query = schema.getQueryType();
-const INITIAL_STATE = [
-  {
-    name: query.name,
-    def: query
-  }
-];
+const INITIAL_STATE = [];
 
 export default function navigation(state = INITIAL_STATE, action) {
   switch (action.type) {
