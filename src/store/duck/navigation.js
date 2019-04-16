@@ -1,7 +1,8 @@
 export const Types = {
   NAVIGATION_SET_FIRST: "@navigation/SET_FIRST",
   NAVIGATION_SET: "@navigation/SET",
-  NAVIGATION_REMOVE: "@navigation/REMOVE"
+  NAVIGATION_REMOVE: "@navigation/REMOVE",
+  NAVIGATION_RESET: "@navigation/RESET"
 };
 
 export const Creators = {
@@ -22,6 +23,7 @@ export const Creators = {
       def: props
     }
   }),
+  navigationReset: () => ({ type: Types.NAVIGATION_RESET }),
   navigationRemove: payload => ({ type: Types.NAVIGATION_REMOVE, payload })
 };
 
@@ -35,6 +37,8 @@ export default function navigation(state = INITIAL_STATE, action) {
       return [...state, action.payload];
     case Types.NAVIGATION_REMOVE:
       return state.slice(0, action.payload + 1);
+    case Types.NAVIGATION_RESET:
+      return [];
     default:
       return state;
   }
