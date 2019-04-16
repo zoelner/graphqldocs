@@ -25,6 +25,9 @@ const style = theme => ({
   },
   category: {
     padding: `${theme.spacing.unit * 1.5}px 0`
+  },
+  title: {
+    textTransform: "capitalize"
   }
 });
 
@@ -62,7 +65,7 @@ class TypeDoc extends React.Component {
     if (types && types.length > 0) {
       typesDef = (
         <div className={classes.category}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom className={classes.title}>
             {typesTitle}
           </Typography>
           {types.map(subtype => (

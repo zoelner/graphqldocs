@@ -14,13 +14,23 @@ const styles = theme => ({
   },
   content: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column"
+    }
   },
   img: {
+    width: "5rem",
+    height: "5rem",
     paddingRight: theme.spacing.unit * 2
   },
   title: {
-    fontFamily: "'Rubik', sans-serif;"
+    fontSize: "2rem",
+    fontFamily: "'Rubik', sans-serif;",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center",
+      padding: theme.spacing.unit * 2
+    }
   }
 });
 
@@ -30,13 +40,7 @@ function Loader(props) {
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <img
-          height={96}
-          width={96}
-          alt="Logo GraphQL"
-          src={GraphQLLogo}
-          className={classes.img}
-        />
+        <img alt="Logo GraphQL" src={GraphQLLogo} className={classes.img} />
         <h1 className={classes.title}>GraphQL Documentation </h1>
       </div>
       <ReactLoading type="bars" color={grey[400]} />

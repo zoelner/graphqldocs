@@ -177,7 +177,8 @@ const styles = theme => ({
     }
   },
   listItem: {
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing.unit,
+    listStyleType: "none"
   }
 });
 
