@@ -1,8 +1,9 @@
 import React from "react";
 import Argument from "./Argument";
 import DefaultValue from "./DefaultValue";
-import { Typography, withStyles } from "@material-ui/core";
 import TypeLink from "../../containers/documentation/TypeLink";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {

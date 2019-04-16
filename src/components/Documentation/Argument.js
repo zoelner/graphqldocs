@@ -8,7 +8,8 @@
 import React from "react";
 import TypeLink from "../../containers/documentation/TypeLink";
 import DefaultValue from "./DefaultValue";
-import { Typography, withStyles } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   argument: {

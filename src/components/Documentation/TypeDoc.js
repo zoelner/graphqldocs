@@ -17,7 +17,9 @@ import TypeLink from "../../containers/documentation/TypeLink";
 import Field from "./Field";
 import EnumValue from "./EnumValue";
 
-import { Typography, Divider, withStyles } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 
 const style = theme => ({
   root: {

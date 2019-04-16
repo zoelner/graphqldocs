@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles from "@material-ui/core/styles/withStyles";
 import Breadcrumbs from "@material-ui/lab/Breadcrumbs";
 import Link from "@material-ui/core/Link";
 
