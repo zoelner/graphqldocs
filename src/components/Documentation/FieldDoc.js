@@ -22,7 +22,9 @@ const styles = theme => ({
   category: {
     padding: `${theme.spacing.unit * 1.5}px 0`
   },
-
+  divider: {
+    marginBottom: theme.spacing.unit * 1.5
+  },
   categoryItem: {
     "& span:first-child": {
       margin: 0,
@@ -72,7 +74,7 @@ class FieldDoc extends React.Component {
           <Typography variant="h6" gutterBottom>
             {"Arguments"}
           </Typography>
-          <Divider />
+          <Divider className={classes.divider} />
           <div>
             {field.args.map(arg => (
               <div key={arg.name} className={classes.categoryItem}>
@@ -106,7 +108,7 @@ class FieldDoc extends React.Component {
           <Typography variant="h6" gutterBottom>
             {"Type"}
           </Typography>
-          <Divider />
+          <Divider className={classes.divider} />
           <TypeLink type={field.type} />
         </div>
         {argsDef}

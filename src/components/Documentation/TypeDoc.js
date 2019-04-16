@@ -30,6 +30,9 @@ const style = theme => ({
   },
   title: {
     textTransform: "capitalize"
+  },
+  divider: {
+    marginBottom: theme.spacing.unit * 1.5
   }
 });
 
@@ -139,7 +142,7 @@ class TypeDoc extends React.Component {
           <Typography variant="h6" gutterBottom>
             {"Values"}
           </Typography>
-          <Divider />
+          <Divider className={classes.divider} />
           <div>
             {values
               .filter(value => !value.isDeprecated)
