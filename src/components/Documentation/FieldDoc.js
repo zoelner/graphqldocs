@@ -99,7 +99,7 @@ class FieldDoc extends React.Component {
           )}
         </div>
         {field.deprecationReason && (
-          <div className="doc-deprecation">{field.deprecationReason}</div>
+          <Typography color="error">{field.deprecationReason}</Typography>
         )}
         <div className={classes.category}>
           <Typography variant="h6" gutterBottom>

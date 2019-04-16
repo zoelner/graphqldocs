@@ -45,7 +45,7 @@ const Field = props => {
         <Typography color="textSecondary"> {field.description}</Typography>
       )}
       {field.deprecationReason && (
-        <div className="doc-deprecation"> {field.deprecationReason}</div>
+        <Typography color="error">{field.deprecationReason}</Typography>
       )}
     </div>
   );

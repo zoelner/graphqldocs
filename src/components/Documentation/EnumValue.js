@@ -3,11 +3,13 @@ import { Typography } from "@material-ui/core";
 
 const EnumValue = ({ value }) => {
   return (
-    <div className="doc-category-item">
-      <div className="enum-value">{value.name}</div>
+    <div>
+      <Typography component="span" variant="subtitle2" color="primary" inline>
+        {value.name}
+      </Typography>
       <Typography color="textSecondary"> {value.description}</Typography>
       {value.deprecationReason && (
-        <div className="doc-deprecation">{value.deprecationReason}</div>
+        <Typography color="error">{value.deprecationReason}</Typography>
       )}
     </div>
   );
