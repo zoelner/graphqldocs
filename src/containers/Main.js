@@ -1,18 +1,19 @@
 import { connect } from "react-redux";
-import Documentation from "../../pages/Documentation";
+import Main from "../pages/Main";
 import { bindActionCreators } from "redux";
-import { Creators as NavigationCreators } from "../../store/duck/navigation";
+import { Creators as SchemaCreators } from "../store/duck/schema";
 
 const getCurrentPage = navigation => navigation[navigation.length - 1];
 
-const mapStateToProps = ({ navigation }) => ({
+const mapStateToProps = ({ schema, navigation }) => ({
+  schema,
   currentPage: getCurrentPage(navigation)
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(NavigationCreators, dispatch);
+  bindActionCreators(SchemaCreators, dispatch);
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Documentation);
+)(Main);

@@ -10,7 +10,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
-import { withRouter } from "react-router";
 
 function renderInputComponent(inputProps) {
   const { classes, inputRef = () => {}, ref, ...other } = inputProps;
@@ -137,7 +136,6 @@ class Search extends React.Component {
   };
 
   getSuggestionValue = suggestion => {
-    this.props.history.replace("/documentation");
     if (Array.isArray(suggestion)) {
       return suggestion[1];
     }
@@ -285,4 +283,4 @@ class Search extends React.Component {
   }
 }
 
-export default withRouter(withStyles(styles)(Search));
+export default withStyles(styles)(Search);

@@ -14,18 +14,19 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Link from "@material-ui/core/Link";
-import { Link as RouterLink } from "react-router-dom";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 
 import styles from "./styles";
 import Search from "../../containers/documentation/Search";
+import GraphQLLogo from "../../assets/GraphQL_Logo.svg";
 
 const Header = ({
   classes,
   theme,
   query,
   mutation,
+  navigationReset,
   navigationSetFirst,
   title
 }) => {
@@ -49,8 +50,6 @@ const Header = ({
                 button
                 className={classes.nested}
                 key={field.name}
-                to="/documentation"
-                component={RouterLink}
                 onClick={navigationSetFirst.bind(this, type, field)}
               >
                 <ListItemText secondary={field.name} />
@@ -81,12 +80,12 @@ const Header = ({
       <div className={classes.toolbarIe11}>
         <div className={classes.toolbar}>
           <div className={classes.drawerHeader}>
+            <img height={32} width={32} alt="Logo GraphQL" src={GraphQLLogo} />
             <Link
-              to="/"
               className={classes.drawerTitle}
-              component={RouterLink}
               variant="h6"
               color="inherit"
+              onClick={navigationReset}
             >
               GraphQL Docs
             </Link>

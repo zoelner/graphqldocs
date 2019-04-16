@@ -17,15 +17,21 @@ export default theme => ({
       flexShrink: 0
     }
   },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center"
+  },
   drawerPaper: {
     width: DRAWER_WIDTH,
     overflowX: "hidden"
   },
   drawerTitle: {
     color: theme.palette.text.secondary,
-    marginBottom: theme.spacing.unit * 0.5,
+    paddingLeft: theme.spacing.unit,
     "&:hover": {
-      color: theme.palette.primary.main
+      color: theme.palette.primary.main,
+      textDecorationLine: "none",
+      cursor: "pointer"
     }
   },
 

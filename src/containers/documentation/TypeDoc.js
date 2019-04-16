@@ -6,7 +6,7 @@ import { Creators as NavigationCreators } from "../../store/duck/navigation";
 const mapDispatchToProps = dispatch =>
   bindActionCreators(NavigationCreators, dispatch);
 
-const mapStateToProps = ({ schema }) => ({ schema });
+const mapStateToProps = ({ schema }) => ({ schema: schema.data });
 
 export default connect(
   mapStateToProps,

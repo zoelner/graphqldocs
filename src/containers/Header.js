@@ -7,9 +7,10 @@ const getTitle = navigation =>
   navigation.length ? navigation[navigation.length - 1].name : undefined;
 
 const mapStateToProps = ({ schema, navigation }) => ({
-  query: schema.getQueryType(),
-  mutation: schema.getMutationType && schema.getMutationType(),
-  subscriptionType: schema.getSubscriptionType && schema.getSubscriptionType(),
+  query: schema.data.getQueryType(),
+  mutation: schema.data.getMutationType && schema.data.getMutationType(),
+  subscriptionType:
+    schema.data.getSubscriptionType && schema.data.getSubscriptionType(),
   title: getTitle(navigation)
 });
 

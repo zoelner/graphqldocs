@@ -4,7 +4,7 @@ import { Creators as NavigationCreators } from "../../store/duck/navigation";
 import Search from "../../components/Search/Search";
 
 const mapStateToProps = ({ schema, navigation }) => ({
-  schema,
+  schema: schema.data,
   navigation
 });
 
