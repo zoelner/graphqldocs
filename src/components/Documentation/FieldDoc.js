@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Markdown from "../../utils/Markdown";
 import Prism from "prismjs";
-import "prismjs/themes/prism.css";
+import "prismjs/themes/prism-solarizedlight.css";
 
 const styles = theme => ({
   root: {
@@ -59,8 +59,7 @@ class FieldDoc extends React.Component {
         .then(response => response.text())
         .then(readme => this.setState({ readme }));
     } catch (e) {
-      console.warn("Não há documentos para carregar");
-      this.setState({ readme: undefined });
+      this.setState({ readme: null });
     }
   }
 
