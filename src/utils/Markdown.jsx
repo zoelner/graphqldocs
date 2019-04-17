@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactMarkdown from "markdown-to-jsx";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -205,7 +205,7 @@ const options = {
     li: {
       component: withStyles(styles)(({ classes, ...props }) => (
         <li className={classes.listItem}>
-          <Typography component="span" {...props} />
+          <Typography paragraph {...props} />
         </li>
       ))
     }
@@ -213,6 +213,10 @@ const options = {
 };
 
 function Markdown({ classes, ...props }) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   return (
     <ReactMarkdown options={options} {...props} className={classes.root} />
   );
