@@ -17,6 +17,9 @@ git clone --dissociate https://github.com/zoelner/graphqldocs.git <your_doc_name
 
 cd <your_doc_name>
 
+# install dependencies
+npm install
+
 # start development version
 npm run start
 ```
