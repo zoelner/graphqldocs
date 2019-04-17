@@ -1,6 +1,10 @@
 {
   "name": "graphdocs",
   "version": "0.1.0",
+  "author": {
+    "name": "Everton Gabriel Zoelner",
+    "email": "everton.zoelner@gmail.com"
+  },
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.3",
