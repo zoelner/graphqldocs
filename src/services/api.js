@@ -1,9 +1,9 @@
 import axios from "axios";
-
+import config from "../config";
 import { introspectionQuery } from "graphql";
 
 const api = axios.create({
-  baseURL: "http://devel.smartgreen.net.br:8000/graphql/",
+  baseURL: config.url,
   method: "post",
   data: {
     query: introspectionQuery
