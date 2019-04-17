@@ -5,6 +5,7 @@ import FieldDoc from "../components/Documentation/FieldDoc";
 import BreadCrumbs from "../containers/documentation/BreadCrumbs";
 import { DRAWER_WIDTH } from "../constants";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Markdown from "../utils/Markdown";
 
 const styles = theme => ({
   content: {
@@ -23,8 +24,27 @@ const styles = theme => ({
 });
 
 class Main extends React.Component {
+  state = {
+    readme: ""
+  };
+
+  componentDidMount() {
+    this.loadReadme();
+  }
+
+  loadReadme() {
+    try {
+      fetch(require(`./docs/Main.md`))
+        .then(response => response.text())
+        .then(readme => this.setState({ readme }));
+    } catch (e) {
+      this.setState({ readme: undefined });
+    }
+  }
+
   render() {
-    const { currentPage, classes } = this.props;
+    const { currentPage, classes, query } = this.props;
+    const { readme } = this.state;
     let content;
 
     if (currentPage) {
@@ -33,8 +53,10 @@ class Main extends React.Component {
       } else {
         content = <FieldDoc field={currentPage.def} />;
       }
+    } else if (readme) {
+      content = <Markdown>{readme}</Markdown>;
     } else {
-      content = <span>Não há conteudo a ser exibido</span>;
+      content = <TypeDoc type={query} />;
     }
 
     return (
