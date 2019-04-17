@@ -2,6 +2,12 @@
 
 > Scaffolding tool for GraphQL Documentation
 
+## Demo
+
+[Click here](https://zoelner.github.io/graphqldocs) to go to demo
+
+- Demo application, there are no markdown descriptions only automatic documentation.
+
 ## Installation
 
 You can install the package from npm.
