@@ -5,6 +5,7 @@
     "name": "Everton Gabriel Zoelner",
     "email": "everton.zoelner@gmail.com"
   },
+  "homepage": "http://zoelner.github.io/graphqldocs",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.3",
@@ -12,6 +13,7 @@
     "@material-ui/lab": "^3.0.0-alpha.30",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.18.0",
+    "gh-pages": "^2.0.1",
     "graphql": "^14.2.1",
     "markdown-to-jsx": "^6.9.3",
     "prismjs": "^1.16.0",
@@ -28,6 +30,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
