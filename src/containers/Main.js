@@ -6,7 +6,7 @@ import { Creators as SchemaCreators } from "../store/duck/schema";
 const getCurrentPage = navigation => navigation[navigation.length - 1];
 
 const mapStateToProps = ({ schema, navigation }) => ({
-  schema,
+  query: schema.data.getQueryType(),
   currentPage: getCurrentPage(navigation)
 });
 
