@@ -10,8 +10,8 @@ import Loader from "./components/Loader";
 
 class Root extends React.Component {
   componentDidMount() {
-    if (!this.props.schema.data) {
-      this.props.schemaRequest();
+    if (this.props.schema.data) {
+      setTimeout(() => this.props.schemaRequestSuccess(), 1000);
     }
   }
 

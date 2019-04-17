@@ -1,5 +1,5 @@
 import { buildClientSchema } from "graphql";
-
+import { data } from "../../__mock__/github_instrospection.json";
 export const Types = {
   SCHEMA_REQUEST: "@schema/SCHEMA_REQUEST",
   SCHEMA_REQUEST_FAILED: "@schema/SCHEMA_REQUEST_FAILED",
@@ -20,7 +20,7 @@ export const Creators = {
 const INITIAL_STATE = {
   isLoading: true,
   error: false,
-  data: null
+  data: buildClientSchema(data)
 };
 
 export default function schema(state = INITIAL_STATE, action) {
@@ -33,8 +33,7 @@ export default function schema(state = INITIAL_STATE, action) {
     case Types.SCHEMA_REQUEST_SUCCESS:
       return Object.assign({}, state, {
         isLoading: false,
-        error: false,
-        data: buildClientSchema(action.payload)
+        error: false
       });
     case Types.SCHEMA_REQUEST_FAILED:
       return Object.assign({}, state, {
